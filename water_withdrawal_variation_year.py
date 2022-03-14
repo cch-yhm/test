@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,16 +13,10 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 # #### 产品产量→产品产量年内占比→年内占比5年平均→产业年内占比5年平均
 
 
-
-
 """先算产品的平均再算产业的平均是不是不对？
    ——在我的算法里是正确的，因为我不是直接平均的，是计数平均的考虑到了均值的问题"""
 """共有3大类产业，每种大类产业需要储存3个过程文件，以便证明正确
    3个表：1产品占比的年内平均 2.产品的5年平均 3.产业的5年平均 """
-
-
-
-
 
 def calcu_output_rate_mean(d):   
     d1 = d[d['Unnamed: 67']!=0]#去掉5年生产总量为0的产品类型
@@ -70,9 +63,6 @@ def calcu_output_rate_mean(d):
     print('rate and mean OK')  
 
 
-
-
-
 def transfer_output_kind(n,sort,labels,name):
     kind = pd.DataFrame()
     for j in range(n):
@@ -93,9 +83,6 @@ def transfer_output_kind(n,sort,labels,name):
     print('success')
 
 
-
-
-
 #产品5年平均变成产业5年平均
 def transfer_output_kind_ele(d,name):
     
@@ -113,20 +100,14 @@ def transfer_output_kind_ele(d,name):
     print('ele_heat success')
 
 
+
 # #### 加权平均
-
-
-
-
 """有两种加权平均算法：
     1.省内比例加权——也进行了计算
     2.全国的二级产业比例加权——论文选择了这种"""
 
 
 # ##### 省内加权
-
-
-
 
 def calcul_weighted_factor_pro(d,name,row):
     C_value = float(d.iloc[:1,2:3].values)##全国各大类产业的总取值量
@@ -163,9 +144,6 @@ def calcul_weighted_factor_pro(d,name,row):
 
 # ##### 二级产业加权
 
-
-
-
 def calcul_weighted_factor_subindustry(d,name):
     C_value = float(d.iloc[:1,2:3].values)##全国各大类产业的总取值量
     #mining total water(all submining_China)
@@ -186,10 +164,8 @@ def calcul_weighted_factor_subindustry(d,name):
     print('weighted_sub ok')
 
 
+
 # #### 用水比例与产量数据结合
-
-
-
 
 def replacement_water(f):
     replacements_chanye1 = {
@@ -197,9 +173,6 @@ def replacement_water(f):
            r'电力热力的生产和供应业':'电力、热力的生产和供应业'}
     }
     f.replace(replacements_chanye1, regex=True, inplace=True)
-
-
-
 
 
 def replacement_province(f):
@@ -244,9 +217,6 @@ def replacement_province(f):
 
 
 # ##### 省级别数据处理
-
-
-
 
 def calcul_rate_pro(d_w,d_ind,name):
     d_p_pre=pd.merge(d_w,d_ind,on=['产业','省'],how='right')
@@ -305,9 +275,6 @@ def calcul_rate_pro(d_w,d_ind,name):
 
 # ##### 产业级别数据处理
 
-
-
-
 def calcu_rate_ind(d_w,kind,name):
     #二级产业取水占比计算
     d_i_pre = pd.merge(kind,d_w,on=['省','产业'],how= 'left')
@@ -353,10 +320,8 @@ def calcu_rate_ind(d_w,kind,name):
     print('calculate_rate_ind OK')
 
 
+
 # ### run code
-
-
-
 
 if __name__=="__main__":
 #     d_min = pd.read_excel('采矿业全国各地产量年内变化整理.xlsx')
@@ -367,9 +332,6 @@ if __name__=="__main__":
 #     calcu_output_rate_mean(d_ele)
 #     d_ele= pd.read_csv('全国各省产品产量占比年内变化_5year_mean_电.csv')
 #     transfer_output_kind_ele(d_ele,'ele_heat')
-
-
-
 
 
 if __name__=="__main__":
@@ -390,10 +352,6 @@ if __name__=="__main__":
 #     labels_min= ['煤炭开采和洗选业', '石油和天然气开采业', '黑色金属矿采选业', '有色金属矿采选业', '非金属矿采选业']
 
 #     transfer_output_kind(5,sort_min,labels_min,'mining')
-
-
-
-
 
 if __name__=="__main__":
 #     d_man = pd.read_csv('全国各省产品产量占比年内变化_5year_mean_麦.csv')
@@ -468,9 +426,6 @@ if __name__=="__main__":
 #     transfer_output_kind(29,sort_man,labels_man,'manufacture')
 
 
-
-
-
 if __name__=="__main__":
 #     d_cw = pd.read_excel('../工业企业用水效率/raw_data/用水情况/规模以上采矿业工业用水情况2008.xlsx')
 #     d_zw =pd.read_excel('../工业企业用水效率/raw_data/用水情况/规模以上制造业工业用水情况2008.xls')
@@ -480,9 +435,6 @@ if __name__=="__main__":
 #     calcul_weighted_factor_pro(d_ew,'ele_heat',96,3774105.0)
 
 
-
-
-
 if __name__=="__main__":
 #     d_cw = pd.read_excel('../工业企业用水效率/raw_data/用水情况/规模以上采矿业工业用水情况2008.xlsx')
 #     d_zw =pd.read_excel('../工业企业用水效率/raw_data/用水情况/规模以上制造业工业用水情况2008.xls')
@@ -490,9 +442,6 @@ if __name__=="__main__":
 #     calcul_weighted_factor_subindustry(d_cw,'mining')
 #     calcul_weighted_factor_subindustry(d_zw,'manufacture')
 #     calcul_weighted_factor_subindustry(d_ew,'ele_heat')
-
-
-
 
 
 if __name__=="__main__":
@@ -506,10 +455,6 @@ if __name__=="__main__":
 #     #两个表格的产业类型一致、地区名称一致
 #     calcul_rate_pro(d_cw_p,kind_c,'mining')
 
-
-
-
-
 if __name__=="__main__":
 #     d_zw_p = pd.read_csv('规模以上manufacture用水各产业占全省的权重&各省占全国权重前32_2008.csv')
 #     kind_z = pd.read_csv('全国各省产业产量占比年内变化_5year_mean_manufacture.csv')
@@ -521,10 +466,6 @@ if __name__=="__main__":
 #     # 两者的省名称一致，产业类型基本一致，但是取水量多一部分废弃资源和废旧材料回收加工业---取水量极小
 #     # (共有6个空值，max=0.00424，75%=0.001035，mean=0.000786,中值=0.000579，全国占比0.000732)
 #     calcul_rate_pro(d_zw_p,kind_z,'manufacture')
-
-
-
-
 
 if __name__=="__main__":
     # d_ew_p = pd.read_csv('规模以上ele_heat用水各产业占全省的权重&各省占全国权重前32_2008.csv')
@@ -538,19 +479,12 @@ if __name__=="__main__":
     #calcul_rate_pro(d_ew_p,kind_e,'ele_heat')###运行时要把源代码中[2:19]换为[2:18]
 
 
-
-
-
 if __name__=="__main__":
 #     kind_c = pd.read_csv('全国各省产业产量占比年内变化_5year_mean_mining.csv')
 #     d_cw_i = pd.read_csv('全国规模以上各产业工业用水占mining的权重&各省占全国权重_2008.csv')
 #     replacement_province(d_cw_i)
 #     d_cw_i.rename(columns={'地区':'省'},inplace=True)
 #     calcu_rate_ind(d_cw_i,kind_c,'mining')
-
-
-
-
 
 if __name__=="__main__":
 #     d_zw_i = pd.read_csv('全国规模以上各产业工业用水占manufacture的权重&各省占全国权重_2008.csv')
@@ -559,10 +493,6 @@ if __name__=="__main__":
 #     replacement_province(d_zw_i)
 #     d_zw_i.rename(columns={'地区':'省'},inplace=True)
 #     calcu_rate_ind(d_zw_i,kind_z,'manufacture')
-
-
-
-
 
 if __name__=="__main__":
 #     d_ew_i = pd.read_csv('全国规模以上各产业工业用水占ele_heat的权重&各省占全国权重_2008.csv')
