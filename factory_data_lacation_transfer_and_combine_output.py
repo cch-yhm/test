@@ -8,6 +8,7 @@ geolocator = BaiduV3(
                 )
 
 def location_transfer():
+    """geolocation transfer have some limitations: the 'api_key'_id can transfer 300,000 items everyday"""
     #read files
     d = pd.concat(pd.read_excel(f,usecols=[0]+list(range(5,12))) for f in glob.glob('工业企业数据2008/工业企业数据（2008）*-*行.xls'))
     d.iloc[:,1:] = d.iloc[:,1:].fillna('')
@@ -52,7 +53,7 @@ def make_combined_data():
     df_final.loc[254475,'latitude']=39.49337517224572 
     
     # save the merged data
-    df_final.to_csv('工业企业数据2008/工业企业数据2008/China_industry_geo_output_2008',index = False)
+    df_final.to_csv('工业企业数据2008/工业企业数据2008/China_industry_geo_output_2008.csv',index = False)
     print('Combined data saved')
 
 
