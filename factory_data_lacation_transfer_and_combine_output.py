@@ -3,14 +3,14 @@ import numpy as np
 from geopy.geocoders import BaiduV3
 import glob
 
-geolocator = BaiduV3(
-                api_key='g9MiHE7NaT1CwCqw7Uz7XI0CDwSkbWZP', 
-                )
-
 def location_transfer():
     """geolocation transfer have some limitations: the 'api_key'_id can transfer 300,000 items everyday"""
+    #read applied api_key(personal)
+    d_geo = open('geolocation.txt')
+    geolocator = BaiduV3(d_geo.readline().strip(), )##
     #read files
-    d = pd.concat(pd.read_excel(f,usecols=[0]+list(range(5,12))) for f in glob.glob('工业企业数据2008/工业企业数据（2008）*-*行.xls'))
+    d_geo = pd.read_
+    d = pd.concat(pd.read_excel(f,usecols=[0]+list(range(5,12))) for f in glob.glob('工业企业数据2008/工业企业数据（2008）*-*行.xls')
     d.iloc[:,1:] = d.iloc[:,1:].fillna('')
     
     n1=0
